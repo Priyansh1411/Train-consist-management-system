@@ -1,72 +1,47 @@
-class CargoSafetyException extends RuntimeException {
-    public CargoSafetyException(String message) {
-        super(message);
-    }
-}
+public class TrainConsistManagementApp {
 
-// ---- Goods Bogie Class ----
-class GoodsBogie {
-    String type;   // Cylindrical / Rectangular
-    String cargo;  // Petroleum / Coal / etc.
+    // ---- Bubble Sort Method ----
+    public static void bubbleSort(int[] arr) {
+        int n = arr.length;
 
-    GoodsBogie(String type) {
-        this.type = type;
-    }
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
 
-    // Method to assign cargo safely
-    public void assignCargo(String cargo) {
-        try {
-            // ---- VALIDATION RULE ----
-            if (type.equalsIgnoreCase("Rectangular") &&
-                    cargo.equalsIgnoreCase("Petroleum")) {
-                throw new CargoSafetyException(
-                        "Unsafe Assignment: Rectangular bogie cannot carry Petroleum"
-                );
+                if (arr[j] > arr[j + 1]) {
+                    // Swap
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
             }
-
-            // If safe → assign cargo
-            this.cargo = cargo;
-            System.out.println("Cargo assigned successfully: " + this);
-
-        } catch (CargoSafetyException e) {
-            // Handle exception gracefully
-            System.out.println("Error: " + e.getMessage());
-
-        } finally {
-            // Always executes
-            System.out.println("Cargo assignment attempt completed.\n");
         }
     }
 
-    @Override
-    public String toString() {
-        return type + " Bogie carrying " + (cargo != null ? cargo : "Nothing");
+    // ---- Method to Print Array ----
+    public static void printArray(int[] arr) {
+        for (int value : arr) {
+            System.out.print(value + " ");
+        }
+        System.out.println();
     }
-}
 
+    // ---- Main Method ----
+    public static void main(String[] args) {
 
-
-public class TrainConsistManagementApp {
-    public static void main(String[] args){
         System.out.println("========================================");
-        System.out.println("   UC15 - Safe Cargo Assignment");
+        System.out.println("   UC16 - Bubble Sort (Manual Sorting)");
         System.out.println("========================================\n");
 
-        // Create bogies
-        GoodsBogie b1 = new GoodsBogie("Cylindrical");
-        GoodsBogie b2 = new GoodsBogie("Rectangular");
+        int[] capacities = {72, 56, 24, 70, 60};
 
-        // ---- SAFE ASSIGNMENT ----
-        b1.assignCargo("Petroleum");
+        System.out.print("Original Capacities: ");
+        printArray(capacities);
 
-        // ---- UNSAFE ASSIGNMENT ----
-        b2.assignCargo("Petroleum");
+        bubbleSort(capacities);
 
-        // ---- CONTINUE EXECUTION ----
-        b2.assignCargo("Coal");
+        System.out.print("Sorted Capacities  : ");
+        printArray(capacities);
 
-        System.out.println("Program continues safely...");
-
-        System.out.println("\nUC15 operations completed successfully...");
+        System.out.println("\nUC16 operations completed successfully...");
     }
 }
