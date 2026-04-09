@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 class Bogie {
@@ -22,33 +23,40 @@ class Bogie {
 public class TrainConsistManagementApp {
     public static void main(String[] args){
         System.out.println("========================================");
-        System.out.println("   UC8 - Filter Bogies using Streams");
+        System.out.println("   UC9 - Group Bogies by Type");
         System.out.println("========================================\n");
 
-        // Create list of bogies (same as UC7)
+        // Create list of bogies
         List<Bogie> bogies = new ArrayList<>();
         bogies.add(new Bogie("Sleeper", 72));
         bogies.add(new Bogie("AC Chair", 60));
+        bogies.add(new Bogie("Sleeper", 72));      // duplicate type
         bogies.add(new Bogie("First Class", 48));
-        bogies.add(new Bogie("Luxury AC", 80));
+        bogies.add(new Bogie("AC Chair", 60));     // duplicate type
 
         // Display original list
         System.out.println("Original Bogie List:");
         bogies.forEach(System.out::println);
 
-        // ---- STREAM FILTER ----
-        List<Bogie> filteredBogies = bogies.stream()
-                .filter(b -> b.capacity > 60)
-                .collect(Collectors.toList());
+        // ---- GROUPING USING STREAM ----
+        Map<String, List<Bogie>> groupedBogies = bogies.stream()
+                .collect(Collectors.groupingBy(b -> b.name));
 
-        // Display filtered list
-        System.out.println("\nFiltered Bogies (Capacity > 60):");
-        filteredBogies.forEach(System.out::println);
+        // Display grouped result
+        System.out.println("\nGrouped Bogies by Type:\n");
+
+        for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
+            System.out.println("Type: " + entry.getKey());
+            for (Bogie b : entry.getValue()) {
+                System.out.println("  " + b);
+            }
+            System.out.println();
+        }
 
         // Verify original list unchanged
-        System.out.println("\nOriginal List After Filtering (Unchanged):");
+        System.out.println("Original List After Grouping (Unchanged):");
         bogies.forEach(System.out::println);
 
-        System.out.println("\nUC8 operations completed successfully...");
+        System.out.println("\nUC9 operations completed successfully...");
     }
 }
