@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 class Bogie {
     String name;
@@ -20,43 +18,36 @@ class Bogie {
 
 
 
+
 public class TrainConsistManagementApp {
     public static void main(String[] args){
         System.out.println("========================================");
-        System.out.println("   UC9 - Group Bogies by Type");
+        System.out.println("   UC10 - Total Seating Capacity");
         System.out.println("========================================\n");
 
         // Create list of bogies
         List<Bogie> bogies = new ArrayList<>();
         bogies.add(new Bogie("Sleeper", 72));
         bogies.add(new Bogie("AC Chair", 60));
-        bogies.add(new Bogie("Sleeper", 72));      // duplicate type
         bogies.add(new Bogie("First Class", 48));
-        bogies.add(new Bogie("AC Chair", 60));     // duplicate type
+        bogies.add(new Bogie("Luxury AC", 80));
 
         // Display original list
-        System.out.println("Original Bogie List:");
+        System.out.println("Train Bogies:");
         bogies.forEach(System.out::println);
 
-        // ---- GROUPING USING STREAM ----
-        Map<String, List<Bogie>> groupedBogies = bogies.stream()
-                .collect(Collectors.groupingBy(b -> b.name));
+        // ---- STREAM AGGREGATION ----
+        int totalCapacity = bogies.stream()
+                .map(b -> b.capacity)          // extract capacity
+                .reduce(0, Integer::sum);      // sum all values
 
-        // Display grouped result
-        System.out.println("\nGrouped Bogies by Type:\n");
-
-        for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
-            System.out.println("Type: " + entry.getKey());
-            for (Bogie b : entry.getValue()) {
-                System.out.println("  " + b);
-            }
-            System.out.println();
-        }
+        // Display result
+        System.out.println("\nTotal Seating Capacity: " + totalCapacity);
 
         // Verify original list unchanged
-        System.out.println("Original List After Grouping (Unchanged):");
+        System.out.println("\nOriginal List After Aggregation (Unchanged):");
         bogies.forEach(System.out::println);
 
-        System.out.println("\nUC9 operations completed successfully...");
+        System.out.println("\nUC10 operations completed successfully...");
     }
 }
